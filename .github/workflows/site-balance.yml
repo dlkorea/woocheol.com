@@ -1,0 +1,49 @@
+name: site-balance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  balance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 홈 공정성 검사
+        run: node tools/check-balance.mjs
+
+  shared-area:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 공용 영역 수정 여부 표시
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          files=$(node tools/shared-changes.mjs "$BASE")
+          if [ -n "$files" ]; then
+            gh pr edit "$PR" --add-label "공용 영역"
+            {
+              echo "### 공용 영역 수정 — 사용자 승인 필요"
+              echo "$files" | sed 's/^/- /'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh pr edit "$PR" --remove-label "공용 영역" || true
+            echo "공용 영역 수정 없음" >> "$GITHUB_STEP_SUMMARY"
+          fi
