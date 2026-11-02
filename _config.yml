@@ -1,0 +1,5 @@
+# GitHub Pages(Jekyll) 공개 대상에서 에이전트 규칙과 검사 도구를 뺀다.
+exclude:
+  - AGENTS.md
+  - CLAUDE.md
+  - tools
