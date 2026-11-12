@@ -13,6 +13,18 @@
       "path": "/hanja/",
       "names": ["한자경", "hanjascanner", "한자 스캐너"],
       "keywords": ["한자", "메뉴판", "대만", "홍콩"]
+    },
+    {
+      "slug": "vocal",
+      "path": "/vocal/",
+      "names": ["보컬 코치", "보컬코치", "vocalcoach"],
+      "keywords": ["노래", "보컬", "발성"]
+    },
+    {
+      "slug": "tickernote",
+      "path": "/tickernote/",
+      "names": ["티커노트", "tickernote", "stock.woocheol"],
+      "keywords": ["주식", "공시", "종목", "투자"]
     }
   ]
 }

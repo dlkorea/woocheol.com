@@ -9,6 +9,8 @@ const html = readFileSync(join(root, "index.html"), "utf8");
 
 const errors = [];
 const fail = (message) => errors.push(message);
+// 웹 서비스도 앱과 같은 규칙으로 센다.
+const APP_TYPES = ["MobileApplication", "WebApplication"];
 
 checkNeutralAreas();
 checkCards();
@@ -98,21 +100,21 @@ function checkJsonLd() {
       fail("JSON-LD 블록을 JSON으로 읽지 못했습니다");
       continue;
     }
-    if (data["@type"] !== "MobileApplication") continue;
+    if (!APP_TYPES.includes(data["@type"])) continue;
 
     const app = apps.find((a) => a.names.some((n) => (data.name ?? "").includes(n)));
     if (!app) {
-      fail(`MobileApplication "${data.name}"이(가) tools/apps.json의 어떤 앱 이름과도 맞지 않습니다`);
+      fail(`${data["@type"]} "${data.name}"이(가) tools/apps.json의 어떤 앱 이름과도 맞지 않습니다`);
       continue;
     }
     seen.set(app.slug, (seen.get(app.slug) ?? 0) + 1);
     const length = (data.description ?? "").length;
     if (length > limits.jsonLdDescriptionChars) {
-      fail(`${app.slug} MobileApplication 설명 ${length}자 > 상한 ${limits.jsonLdDescriptionChars}자`);
+      fail(`${app.slug} ${data["@type"]} 설명 ${length}자 > 상한 ${limits.jsonLdDescriptionChars}자`);
     }
   }
   for (const [slug, count] of seen) {
-    if (count > 1) fail(`${slug} 앱의 MobileApplication JSON-LD가 ${count}개입니다. 앱마다 최대 1개입니다`);
+    if (count > 1) fail(`${slug} 앱의 MobileApplication·WebApplication JSON-LD가 ${count}개입니다. 앱마다 최대 1개입니다`);
   }
 }
 
