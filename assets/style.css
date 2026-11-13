@@ -152,22 +152,99 @@ a:hover {
   font-size: 15px;
 }
 
+/* Service cards (#apps) — 머리·소개·버튼·보조 링크 네 줄을 카드끼리 subgrid로 맞춘다 */
+#apps .card {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 16px;
+  background: var(--bg);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+#apps .card:hover {
+  box-shadow: 0 10px 28px rgba(15, 20, 30, 0.08);
+  transform: translateY(-2px);
+}
+
+.app-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .app-icon {
-  display: block;
+  flex: none;
   width: 56px;
   height: 56px;
-  margin-bottom: 12px;
-  border-radius: 12px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+#apps .app-head h3 {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.app-tagline {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+#apps .app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
 }
 
 .badge {
-  display: inline-block;
-  margin-bottom: 12px;
-  padding: 2px 10px;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.badge:hover {
   color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 999px;
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+#apps .app-more {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 4px 16px;
+  margin-top: -6px;
+  font-size: 13px;
+}
+
+.app-more a {
+  color: var(--text-muted);
+}
+
+.app-more a:hover {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #apps .card {
+    transition: none;
+  }
+
+  #apps .card:hover {
+    transform: none;
+  }
 }
 
 .button {

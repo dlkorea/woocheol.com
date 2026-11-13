@@ -67,7 +67,7 @@ function checkCards() {
     const app = apps.find((a) => a.slug === card.slug);
     const label = `${card.slug ?? "data-app 없는"} 카드`;
     const title = text(card.body.match(/<h3>([\s\S]*?)<\/h3>/)?.[1] ?? "");
-    const paragraphs = [...card.body.matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => m[1]);
+    const paragraphs = [...card.body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map((m) => m[1]);
     const description = text(paragraphs[0] ?? "");
     const links = [...card.body.matchAll(/<a\s[^>]*href="([^"]*)"/g)].map((m) => m[1]);
     const badges = (card.body.match(/class="badge"/g) ?? []).length;
