@@ -20,7 +20,7 @@ GitHub Pages가 `main`을 그대로 공개합니다(빌드 단계 없음). `main
 
 1. 홈의 `<title>`, `description`, `og:title`, `og:description`, 첫 화면(hero), 회사 소개, 앱 섹션 안내 문구에는 어떤 앱의 이름이나 주제어(`tools/apps.json`의 `names`, `keywords`)도 넣지 않습니다. 회사 이야기만 합니다.
 2. `tools/apps.json`의 모든 앱이 홈에 카드를 정확히 하나씩 가지며, 카드 순서는 `apps` 배열 순서(등록 순)와 같습니다. 순서를 바꾸려면 사용자 승인이 필요합니다.
-3. 카드는 모두 같은 틀입니다. `<span class="badge">` 스토어 배지(웹 서비스는 `웹`) + `<h3>` 앱 이름 + `<p>` 소개 + `<p>` 링크.
+3. 카드는 모두 같은 틀입니다. `<img class="app-icon">` 아이콘(`/assets/apps/<slug>.png`, 128px PNG) + `<span class="badge">` 스토어 배지(웹 서비스는 `웹`) + `<h3>` 앱 이름 + `<p>` 소개 + `<p>` 링크.
    제목·소개 글자 수, 문단·링크·배지 개수의 상한은 `tools/apps.json`의 `limits`로 모두에게 같습니다.
 4. 카드 안에서 사이트 내부로 가는 링크는 자기 앱 `path` 아래로만 겁니다.
 5. 홈의 `MobileApplication`(웹 서비스는 `WebApplication`) JSON-LD는 앱마다 최대 하나이며, 설명 글자 수 상한이 같습니다. 자세한 구조화 데이터는 앱 페이지에 둡니다.
@@ -30,7 +30,7 @@ GitHub Pages가 `main`을 그대로 공개합니다(빌드 단계 없음). `main
 ## 새 앱 추가
 
 1. `tools/apps.json`의 `apps` 배열 **맨 끝**에 `slug`, `path`, `names`(앱 이름·패키지명 등), `keywords`(앱 주제어)를 추가합니다.
-2. 앱 폴더(`/<slug>/`)를 만들고, 홈 `#apps`의 마지막 카드 뒤에 같은 틀로 카드를 추가합니다.
+2. 앱 폴더(`/<slug>/`)를 만들고, 아이콘을 `assets/apps/<slug>.png`(128px)로 넣고, 홈 `#apps`의 마지막 카드 뒤에 같은 틀로 카드를 추가합니다.
 3. `sitemap.xml`에 앱 페이지를 추가합니다.
 
 `tools/apps.json`을 고치는 것은 공용 영역 수정이므로 사용자 승인을 받습니다.

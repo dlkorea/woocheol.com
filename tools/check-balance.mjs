@@ -71,12 +71,15 @@ function checkCards() {
     const description = text(paragraphs[0] ?? "");
     const links = [...card.body.matchAll(/<a\s[^>]*href="([^"]*)"/g)].map((m) => m[1]);
     const badges = (card.body.match(/class="badge"/g) ?? []).length;
+    const icons = [...card.body.matchAll(/<img class="app-icon" src="([^"]*)"/g)].map((m) => m[1]);
 
     if (!title) fail(`${label}: <h3> 제목이 없습니다`);
     if (title.length > limits.titleChars) fail(`${label}: 제목 ${title.length}자 > 상한 ${limits.titleChars}자`);
     if (description.length > limits.descriptionChars) fail(`${label}: 소개 ${description.length}자 > 상한 ${limits.descriptionChars}자`);
     if (paragraphs.length > limits.paragraphs) fail(`${label}: 문단 ${paragraphs.length}개 > 상한 ${limits.paragraphs}개`);
     if (links.length > limits.links) fail(`${label}: 링크 ${links.length}개 > 상한 ${limits.links}개`);
+    if (icons.length !== 1) fail(`${label}: 아이콘 ${icons.length}개. 카드마다 정확히 1개입니다`);
+    else if (card.slug && icons[0] !== `/assets/apps/${card.slug}.png`) fail(`${label}: 아이콘은 /assets/apps/${card.slug}.png 입니다 (${icons[0]})`);
     if (badges > limits.badges) fail(`${label}: 배지 ${badges}개 > 상한 ${limits.badges}개`);
 
     for (const href of links) {
