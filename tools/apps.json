@@ -12,7 +12,7 @@
       "slug": "hanja",
       "path": "/hanja/",
       "names": ["한자경", "hanjascanner", "한자 스캐너"],
-      "keywords": ["한자", "메뉴판", "대만", "홍콩"]
+      "keywords": ["한자", "메뉴판", "대만", "홍콩", "일본"]
     },
     {
       "slug": "vocal",
