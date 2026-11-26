@@ -10,13 +10,16 @@ if (!base) {
 }
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" });
-const appPaths = JSON.parse(readFileSync("tools/apps.json", "utf8")).apps.map((a) => a.path.replace(/^\//, ""));
+const config = JSON.parse(readFileSync("tools/apps.json", "utf8"));
+const appPaths = config.apps.map((a) => a.path.replace(/^\//, ""));
+// 언어별 홈은 모두 index.html처럼 앱 카드·앱 JSON-LD를 뺀 나머지만 공용 영역으로 본다.
+const homeFiles = config.homes.map((h) => h.file);
 const changed = git("diff", "--name-only", `${base}...HEAD`).split("\n").filter(Boolean);
 
 const shared = changed.filter((file) => {
   if (appPaths.some((p) => file.startsWith(p))) return false;
   if (file === "sitemap.xml") return false;
-  if (file === "index.html") return withoutAppBlocks(showAt(`${base}`, file)) !== withoutAppBlocks(readFileSync(file, "utf8"));
+  if (homeFiles.includes(file)) return withoutAppBlocks(showAt(`${base}`, file)) !== withoutAppBlocks(readFileSync(file, "utf8"));
   return true;
 });
 
