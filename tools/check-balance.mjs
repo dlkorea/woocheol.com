@@ -1,37 +1,43 @@
-// 홈(index.html)이 한 앱 쪽으로 기울지 않았는지 검사한다. 규칙은 AGENTS.md 참고.
+// 언어별 홈(tools/apps.json의 homes)이 한 앱 쪽으로 기울지 않았는지 검사한다. 규칙은 AGENTS.md 참고.
+// 흐름: 홈마다 공용 영역 단어 → 앱 카드 틀·순서·상한 → JSON-LD를 본다. 모든 언어가 같은 카드 순서를 따르므로 언어끼리도 구성이 같다.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const { limits, apps } = JSON.parse(readFileSync(join(root, "tools/apps.json"), "utf8"));
-const html = readFileSync(join(root, "index.html"), "utf8");
-
-const errors = [];
-const fail = (message) => errors.push(message);
+const config = JSON.parse(readFileSync(join(root, "tools/apps.json"), "utf8"));
+const { apps } = config;
 // 웹 서비스도 앱과 같은 규칙으로 센다.
 const APP_TYPES = ["MobileApplication", "WebApplication"];
 
-checkNeutralAreas();
-checkCards();
-checkJsonLd();
+const errors = [];
+
+for (const home of config.homes) {
+  const html = readFileSync(join(root, home.file), "utf8");
+  // 글자 수 상한만 언어별로 다를 수 있다(영어·스페인어는 같은 뜻에 글자가 더 든다). 같은 언어 안에서는 모든 앱이 같다.
+  const limits = { ...config.limits, ...home.limits };
+  const fail = (message) => errors.push(`[${home.file}] ${message}`);
+  checkNeutralAreas(html, fail);
+  checkCards(html, limits, fail);
+  checkJsonLd(html, limits, fail);
+}
 
 if (errors.length) {
   console.error(`홈 공정성 검사 실패 (${errors.length}건):`);
   for (const e of errors) console.error(`- ${e}`);
   process.exit(1);
 }
-console.log(`홈 공정성 검사 통과 (앱 ${apps.length}개)`);
+console.log(`홈 공정성 검사 통과 (앱 ${apps.length}개, 언어 ${config.homes.length}개)`);
 
-function checkNeutralAreas() {
+function checkNeutralAreas(html, fail) {
   const areas = {
-    "<title>": match(/<title>([\s\S]*?)<\/title>/),
-    "meta description": metaContent("name", "description"),
-    "og:title": metaContent("property", "og:title"),
-    "og:description": metaContent("property", "og:description"),
-    "첫 화면(hero)": section(/<section class="hero">([\s\S]*?)<\/section>/),
-    "회사 소개(#about)": section(/<section[^>]*id="about"[^>]*>([\s\S]*?)<\/section>/),
-    "앱 섹션 안내 문구": match(/id="apps"[\s\S]*?<p class="section-lead">([\s\S]*?)<\/p>/),
+    "<title>": match(html, /<title>([\s\S]*?)<\/title>/),
+    "meta description": metaContent(html, "name", "description"),
+    "og:title": metaContent(html, "property", "og:title"),
+    "og:description": metaContent(html, "property", "og:description"),
+    "첫 화면(hero)": section(html, /<section class="hero">([\s\S]*?)<\/section>/),
+    "회사 소개(#about)": section(html, /<section[^>]*id="about"[^>]*>([\s\S]*?)<\/section>/),
+    "앱 섹션 안내 문구": match(html, /id="apps"[\s\S]*?<p class="section-lead">([\s\S]*?)<\/p>/),
   };
   for (const [area, text] of Object.entries(areas)) {
     if (text === null) {
@@ -48,8 +54,8 @@ function checkNeutralAreas() {
   }
 }
 
-function checkCards() {
-  const appsSection = section(/<section[^>]*id="apps"[^>]*>([\s\S]*?)<\/section>/);
+function checkCards(html, limits, fail) {
+  const appsSection = section(html, /<section[^>]*id="apps"[^>]*>([\s\S]*?)<\/section>/);
   if (appsSection === null) return fail("#apps 섹션을 찾지 못했습니다");
 
   const cards = [...appsSection.matchAll(/<div class="card"([^>]*)>([\s\S]*?)<\/div>/g)].map(([, attrs, body]) => ({
@@ -92,7 +98,7 @@ function checkCards() {
   }
 }
 
-function checkJsonLd() {
+function checkJsonLd(html, limits, fail) {
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   const seen = new Map();
   for (const [, json] of blocks) {
@@ -121,17 +127,17 @@ function checkJsonLd() {
   }
 }
 
-function match(pattern) {
+function match(html, pattern) {
   const m = html.match(pattern);
   return m ? text(m[1]) : null;
 }
 
-function section(pattern) {
+function section(html, pattern) {
   const m = html.match(pattern);
   return m ? m[1] : null;
 }
 
-function metaContent(attr, value) {
+function metaContent(html, attr, value) {
   const m = html.match(new RegExp(`<meta ${attr}="${value.replace(":", "\\:")}" content="([^"]*)"`));
   return m ? m[1] : null;
 }

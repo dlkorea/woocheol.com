@@ -94,6 +94,32 @@ a:hover {
   text-decoration: none;
 }
 
+.lang {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lang a {
+  color: var(--text-muted);
+}
+
+.lang a:hover,
+.lang a[aria-current="page"] {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Pretendard에는 일본어 가나·한자가 없어 일본어 페이지는 일본어 글꼴을 먼저 쓴다.
+   일본어는 띄어쓰기가 없어 한국어용 keep-all이면 문장 중간에서 줄이 안 바뀌므로 글자 단위 줄바꿈으로 되돌린다. */
+html[lang="ja"] body {
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo",
+    "Pretendard", sans-serif;
+  word-break: normal;
+  line-break: strict;
+}
+
 /* Sections */
 .hero {
   padding: 120px 0 100px;
@@ -366,7 +392,8 @@ a:hover {
     padding: 56px 0;
   }
 
+  /* 좁은 화면에서는 같은 페이지 안 이동 메뉴보다 언어 전환을 남긴다. */
   .nav {
-    gap: 14px;
+    display: none;
   }
 }

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://woocheol.com/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://woocheol.com/</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/en/</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/es/</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/ja/</loc><lastmod>2026-11-26</lastmod></url>
   <url><loc>https://woocheol.com/hanja/</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://woocheol.com/privacy.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://woocheol.com/en/privacy.html</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/es/privacy.html</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/ja/privacy.html</loc><lastmod>2026-11-26</lastmod></url>
   <url><loc>https://woocheol.com/terms.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://woocheol.com/en/terms.html</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/es/terms.html</loc><lastmod>2026-11-26</lastmod></url>
+  <url><loc>https://woocheol.com/ja/terms.html</loc><lastmod>2026-11-26</lastmod></url>
 </urlset>

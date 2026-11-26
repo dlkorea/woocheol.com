@@ -7,24 +7,30 @@
     "badges": 2,
     "jsonLdDescriptionChars": 80
   },
+  "homes": [
+    { "file": "index.html", "lang": "ko" },
+    { "file": "en/index.html", "lang": "en", "limits": { "titleChars": 50, "descriptionChars": 160, "jsonLdDescriptionChars": 160 } },
+    { "file": "es/index.html", "lang": "es", "limits": { "titleChars": 50, "descriptionChars": 160, "jsonLdDescriptionChars": 160 } },
+    { "file": "ja/index.html", "lang": "ja" }
+  ],
   "apps": [
     {
       "slug": "hanja",
       "path": "/hanja/",
-      "names": ["한자경", "hanjascanner", "한자 스캐너"],
-      "keywords": ["한자", "메뉴판", "대만", "홍콩", "일본"]
+      "names": ["한자경", "hanjascanner", "한자 스캐너", "Kanjiscope"],
+      "keywords": ["한자", "메뉴판", "대만", "홍콩", "일본", "kanji", "Chinese character", "pinyin", "carácter chino", "漢字", "ピンイン", "台湾"]
     },
     {
       "slug": "vocal",
       "path": "/vocal/",
-      "names": ["보컬 코치", "보컬코치", "vocalcoach"],
-      "keywords": ["노래", "보컬", "발성"]
+      "names": ["보컬 코치", "보컬코치", "vocalcoach", "Vocal Coach"],
+      "keywords": ["노래", "보컬", "발성", "vocal", "singing", "song", "canción", "canto", "歌", "ボーカル", "発声"]
     },
     {
       "slug": "tickernote",
       "path": "/tickernote/",
       "names": ["티커노트", "tickernote", "stock.woocheol"],
-      "keywords": ["주식", "공시", "종목", "투자"]
+      "keywords": ["주식", "공시", "종목", "투자", "stock", "disclosure", "investing", "bolsa", "inversión", "株", "投資", "開示"]
     }
   ]
 }
