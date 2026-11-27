@@ -23,7 +23,7 @@
     {
       "slug": "vocal",
       "path": "/vocal/",
-      "names": ["보컬 코치", "보컬코치", "vocalcoach", "Vocal Coach"],
+      "names": ["보컬스텝", "VocalStep", "vocalstep", "보컬 코치", "보컬코치", "vocalcoach", "Vocal Coach"],
       "keywords": ["노래", "보컬", "발성", "vocal", "singing", "song", "canción", "canto", "歌", "ボーカル", "発声"]
     },
     {
